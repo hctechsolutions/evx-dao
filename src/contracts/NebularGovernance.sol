@@ -10,8 +10,8 @@ import { IGovernor } from "@openzeppelin/contracts/governance/IGovernor.sol";
 import { IVotes } from "@openzeppelin/contracts/governance/utils/IVotes.sol";
 import { Governor } from "@openzeppelin/contracts/governance/Governor.sol";
 
-import { INebularGovernance } from "@nebular/interfaces/INebularGovernance.sol";
-import { INebularToken } from "@nebular/interfaces/INebularToken.sol";
+import { INebularGovernance } from "@nebular-dao/interfaces/INebularGovernance.sol";
+import { INebularToken } from "@nebular-dao/interfaces/INebularToken.sol";
 
 /**
  * @title Nebular Governance DAO

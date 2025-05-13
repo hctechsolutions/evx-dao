@@ -6,8 +6,8 @@ import "@openzeppelin/contracts/governance/TimelockController.sol";
 import "@openzeppelin/contracts/governance/IGovernor.sol";
 import "forge-std/Test.sol";
 
-import "@nebular/contracts/NebularGovernance.sol";
-import "@nebular/contracts/NebularToken.sol";
+import "@nebular-dao/contracts/NebularGovernance.sol";
+import "@nebular-dao/contracts/NebularToken.sol";
 
 
 /**

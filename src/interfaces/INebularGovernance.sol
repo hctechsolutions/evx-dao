@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import { INebularToken } from "@nebular/interfaces/INebularToken.sol";
+import { INebularToken } from "@nebular-dao/interfaces/INebularToken.sol";
 import { IGovernor } from "@openzeppelin/contracts/governance/IGovernor.sol";
 
 /*

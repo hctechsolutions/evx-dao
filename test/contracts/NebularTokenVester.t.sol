@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
-import "@nebular/contracts/NebularTokenVester.sol";
+import "@nebular-dao/contracts/NebularTokenVester.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /**

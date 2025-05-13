@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
 import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import "@nebular/contracts/NebularToken.sol";
+import "@nebular-dao/contracts/NebularToken.sol";
 
 /**
  * @title NebularTokenTest
