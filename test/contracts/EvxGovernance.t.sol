@@ -6,17 +6,17 @@ import "@openzeppelin/contracts/governance/TimelockController.sol";
 import "@openzeppelin/contracts/governance/IGovernor.sol";
 import "forge-std/Test.sol";
 
-import "@nebular-dao/contracts/NebularGovernance.sol";
-import "@nebular-dao/contracts/NebularToken.sol";
+import "@evx-dao/contracts/EvxGovernance.sol";
+import "@evx-dao/contracts/EvxToken.sol";
 
 
 /**
- * @title NebularGovernanceTest
- * @dev Unit tests for the NebularGovernance contract.
+ * @title EvxGovernanceTest
+ * @dev Unit tests for the EvxGovernance contract.
  */
-contract NebularGovernanceTest is Test {
-    NebularGovernance public dao;
-    NebularToken public token;
+contract EvxGovernanceTest is Test {
+    EvxGovernance public dao;
+    EvxToken public token;
     TimelockController public timelock;
 
     address public constant ADMIN = address(1);
@@ -38,7 +38,7 @@ contract NebularGovernanceTest is Test {
      */
     function setUp() public {
         // Deploy Governance Token
-        token = new NebularToken(ADMIN);
+        token = new EvxToken(ADMIN);
 
         // Transfer tokens from ADMIN to voters
         vm.startPrank(ADMIN);
@@ -60,7 +60,7 @@ contract NebularGovernanceTest is Test {
         timelock = new TimelockController(1 days, proposers, executors, ADMIN);
 
         // Deploy DAO
-        dao = new NebularGovernance(token, timelock);
+        dao = new EvxGovernance(token, timelock);
 
         // Set timelock roles using ADMIN
         vm.startPrank(ADMIN);
@@ -70,14 +70,14 @@ contract NebularGovernanceTest is Test {
     }
 
     /**
-     * @dev Tests the initial configuration of the NebularGovernance.
+     * @dev Tests the initial configuration of the EvxGovernance.
      */
     function testInitialization() public view {
-        assertEq(dao.name(), "NBL Governance DAO");
+        assertEq(dao.name(), "EVX Governance DAO");
         assertEq(dao.votingDelay(), VOTING_DELAY);
         assertEq(dao.votingPeriod(), VOTING_PERIOD);
         assertEq(dao.quorumNumerator(), QUORUM_PERCENT);
-        assertEq(address(dao.nebularToken()), address(token));
+        assertEq(address(dao.evxToken()), address(token));
     }
 
     /**

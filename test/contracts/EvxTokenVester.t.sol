@@ -2,12 +2,12 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
-import "@nebular-dao/contracts/NebularTokenVester.sol";
+import "@evx-dao/contracts/EvxTokenVester.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /**
- * @title NebularTokenVesterTest
- * @dev Unit tests for the NebularTokenVester contract
+ * @title EvxTokenVesterTest
+ * @dev Unit tests for the EvxTokenVester contract
  */
 contract MockERC20 is ERC20 {
     constructor() ERC20("Mock Token", "MOCK") {}
@@ -17,9 +17,9 @@ contract MockERC20 is ERC20 {
     }
 }
 
-contract NebularTokenVesterTest is Test {
+contract EvxTokenVesterTest is Test {
     MockERC20 public token;
-    NebularTokenVester public vesting;
+    EvxTokenVester public vesting;
 
     uint256 public constant CLIFF_DURATION = 365 days;
     uint256 public constant INITIAL_RELEASE = 1e18; // 1 token
@@ -36,7 +36,7 @@ contract NebularTokenVesterTest is Test {
         vm.startPrank(owner);
 
         token = new MockERC20();
-        vesting = new NebularTokenVester(
+        vesting = new EvxTokenVester(
             token, 
             CLIFF_DURATION, 
             INITIAL_RELEASE, 

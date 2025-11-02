@@ -2,16 +2,16 @@
 pragma solidity ^0.8.20;
 
 import { TimelockController } from "@openzeppelin/contracts/governance/TimelockController.sol";
-import { NebularTokenVester } from "@nebular-dao/contracts/NebularTokenVester.sol";
-import { NebularGovernance } from "@nebular-dao/contracts/NebularGovernance.sol";
-import { NebularToken } from "@nebular-dao/contracts/NebularToken.sol";
+import { EvxTokenVester } from "@evx-dao/contracts/EvxTokenVester.sol";
+import { EvxGovernance } from "@evx-dao/contracts/EvxGovernance.sol";
+import { EvxToken } from "@evx-dao/contracts/EvxToken.sol";
 
 import { Script } from "forge-std/Script.sol";
 import "forge-std/console.sol";
 
 /**
  * @title Deploy
- * @notice Comprehensive deployment script for the Nebular DAO
+ * @notice Comprehensive deployment script for the Evx DAO
  */
 contract Deploy is Script {
     uint256 private deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
@@ -36,9 +36,9 @@ contract Deploy is Script {
         // ======================
         // Deploy Governance Token
         // ======================
-        console.log("\nDeploying NebularToken...");
-        NebularToken nbl = new NebularToken(deployerWallet);
-        console.log("NebularToken deployed at:", address(nbl));
+        console.log("\nDeploying EvxToken...");
+        EvxToken evx = new EvxToken(deployerWallet);
+        console.log("EvxToken deployed at:", address(evx));
 
         // ======================
         // Deploy Timelock Controller
@@ -71,11 +71,11 @@ contract Deploy is Script {
         console.log("\nDeploying Vesting Contracts...");
         
         // Deploy the vesting contracts for different allocations
-        NebularTokenVester liquidityVester = new NebularTokenVester(
-            nbl,
+        EvxTokenVester liquidityVester = new EvxTokenVester(
+            evx,
             0,                  // Cliff: 0
             0,                  // Initial release: 0
-            20_000_000e18,      // Total allocation: 40M tokens
+            20_000_000e18,      // Total allocation: 20M tokens
             4 * 365 days,       // Vesting duration: 4 years
             treasuryWallet,     // Beneficiary: Treasury
             treasuryWallet      // The address that will own the vesting contract
@@ -83,8 +83,8 @@ contract Deploy is Script {
 
         console.log("Liquidity Vester deployed at:", address(liquidityVester));
 
-        NebularTokenVester teamVester = new NebularTokenVester(
-            nbl,
+        EvxTokenVester teamVester = new EvxTokenVester(
+            evx,
             1 * 365 days,       // Cliff: 1 year
             0,                  // Initial release: 0
             15_000_000e18,      // Total allocation: 15M tokens
@@ -95,8 +95,8 @@ contract Deploy is Script {
 
         console.log("Team Vester deployed at:", address(teamVester));
 
-        NebularTokenVester seedVester = new NebularTokenVester(
-            nbl,
+        EvxTokenVester seedVester = new EvxTokenVester(
+            evx,
             180 days,           // Cliff: 6 months
             0,                  // Initial release: 0
             10_000_000e18,      // Total allocation: 10M tokens
@@ -107,8 +107,8 @@ contract Deploy is Script {
 
         console.log("Seed Vester deployed at:", address(seedVester));
 
-        NebularTokenVester marketingVester = new NebularTokenVester(
-            nbl,
+        EvxTokenVester marketingVester = new EvxTokenVester(
+            evx,
             0,                  // Cliff: 0
             3_000_000e18,       // Initial release: 3M tokens (30%)
             10_000_000e18,      // Total allocation: 10M tokens
@@ -123,27 +123,27 @@ contract Deploy is Script {
         // Distribute Tokens
         // ======================
         console.log("\nDistributing tokens...");
-        nbl.transfer(address(liquidityVester), 20_000_000e18);
-        nbl.transfer(address(teamVester), 15_000_000e18);
-        nbl.transfer(address(seedVester), 10_000_000e18);
-        nbl.transfer(address(marketingVester), 10_000_000e18);
-        nbl.transfer(treasuryWallet, 40_000_000e18);
-        nbl.transfer(partnersWallet, 5_000_000e18);
+        evx.transfer(address(liquidityVester), 20_000_000e18);
+        evx.transfer(address(teamVester), 15_000_000e18);
+        evx.transfer(address(seedVester), 10_000_000e18);
+        evx.transfer(address(marketingVester), 10_000_000e18);
+        evx.transfer(treasuryWallet, 40_000_000e18);
+        evx.transfer(partnersWallet, 5_000_000e18);
         console.log("Token distribution completed");
 
         // ======================
         // Deploy Governance DAO
         // ======================
-        console.log("\nDeploying NebularGovernance...");
-        NebularGovernance dao = new NebularGovernance(nbl, timelock);
-        console.log("NebularGovernance deployed at:", address(dao));
+        console.log("\nDeploying EvxGovernance...");
+        EvxGovernance dao = new EvxGovernance(evx, timelock);
+        console.log("EvxGovernance deployed at:", address(dao));
 
         // ======================
         // Post-Deployment Setup
         // ======================
         console.log("\nConfiguring permissions...");
         
-        // Transfer timelock admin to Nebular DAO
+        // Transfer timelock admin to Evx DAO
         timelock.grantRole(timelock.PROPOSER_ROLE(), address(dao));
         timelock.grantRole(timelock.EXECUTOR_ROLE(), address(dao));
         timelock.grantRole(timelock.CANCELLER_ROLE(), address(dao));
@@ -152,8 +152,8 @@ contract Deploy is Script {
         console.log("Timelock permissions transferred to DAO");
 
         console.log("======== DEPLOYMENT ENVIRONMENT ========");
-        console.log(string.concat("NEBULAR_TOKEN_ADDR=", vm.toString(address(nbl))));
-        console.log(string.concat("NEBULAR_DAO_ADDR=", vm.toString(address(dao))));
+        console.log(string.concat("EVX_TOKEN_ADDR=", vm.toString(address(evx))));
+        console.log(string.concat("EVX_DAO_ADDR=", vm.toString(address(dao))));
         console.log(string.concat("DAO_TIMELOCK_ADDR=", vm.toString(address(timelock))));
         console.log(string.concat("LIQUIDITY_VESTER_ADDR=", vm.toString(address(liquidityVester))));
         console.log(string.concat("TEAM_VESTER_ADDR=", vm.toString(address(teamVester))));

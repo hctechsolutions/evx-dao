@@ -2,10 +2,10 @@
 pragma solidity ^0.8.20;
 
 /**
- * @title INebularToken
- * @notice Interface for the Nebular token contract with voting and permit capabilities.
+ * @title IEvxToken
+ * @notice Interface for the Evx token contract with voting and permit capabilities.
  */
-interface INebularToken {
+interface IEvxToken {
     /**
      * @notice Emitted when an account is automatically self-delegated upon first token receipt.
      * @param account The address that was auto-delegated.

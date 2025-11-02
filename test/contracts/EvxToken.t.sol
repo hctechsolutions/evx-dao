@@ -3,23 +3,23 @@ pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
 import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import "@nebular-dao/contracts/NebularToken.sol";
+import "@evx-dao/contracts/EvxToken.sol";
 
 /**
- * @title NebularTokenTest
- * @dev Unit tests for the NebularToken contract.
+ * @title EvxTokenTest
+ * @dev Unit tests for the EvxToken contract.
  */
-contract NebularTokenTest is Test {
-    NebularToken public token;
+contract EvxTokenTest is Test {
+    EvxToken public token;
     address public owner = address(1);
     address public user1 = address(0x123);
     address public user2 = address(0x456);
 
     /**
-     * @dev Deploys the NebularToken contract before each test.
+     * @dev Deploys the EvxToken contract before each test.
      */
     function setUp() public {
-        token = new NebularToken(owner);
+        token = new EvxToken(owner);
     }
 
     /**
@@ -35,8 +35,8 @@ contract NebularTokenTest is Test {
      * @dev Checks the token's name and symbol.
      */
     function testNameSymbol() public view {
-        assertEq(token.name(), "Nebular Governance Token");
-        assertEq(token.symbol(), "NBL");
+        assertEq(token.name(), "Evx Governance Token");
+        assertEq(token.symbol(), "EVX");
     }
 
     /**

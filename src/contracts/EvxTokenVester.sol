@@ -1,41 +1,41 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import { INebularTokenVester } from "@nebular-dao/interfaces/INebularTokenVester.sol";
+import { IEvxTokenVester } from "@evx-dao/interfaces/IEvxTokenVester.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * @title NebularTokenVester
+ * @title EvxTokenVester
  * @notice Implements a linear token vesting mechanism with an initial cliff and optional immediate release.
  * @dev This contract holds tokens and gradually releases them to a beneficiary address according to a vesting schedule.
  *      It supports an initial cliff duration, an optional initial release of tokens after the cliff, and linear release
  *      of the remaining tokens over a fixed vesting duration. The contract is Ownable and only the owner can trigger
  *      token releases.
  */
-contract NebularTokenVester is INebularTokenVester, Ownable {
+contract EvxTokenVester is IEvxTokenVester, Ownable {
     using SafeERC20 for IERC20;
 
-    /// @inheritdoc INebularTokenVester
+    /// @inheritdoc IEvxTokenVester
     IERC20 public immutable token;
 
-    /// @inheritdoc INebularTokenVester
+    /// @inheritdoc IEvxTokenVester
     uint256 public immutable start;
 
-    /// @inheritdoc INebularTokenVester
+    /// @inheritdoc IEvxTokenVester
     uint256 public immutable cliffDuration;
 
-    /// @inheritdoc INebularTokenVester
+    /// @inheritdoc IEvxTokenVester
     uint256 public immutable initialRelease;
 
-    /// @inheritdoc INebularTokenVester
+    /// @inheritdoc IEvxTokenVester
     uint256 public immutable totalAllocation;
 
-    /// @inheritdoc INebularTokenVester
+    /// @inheritdoc IEvxTokenVester
     uint256 public immutable vestingDuration;
 
-    /// @inheritdoc INebularTokenVester
+    /// @inheritdoc IEvxTokenVester
     uint256 public released;
 
     /// @notice The address that will be the beneficiary of the tokens
@@ -73,7 +73,7 @@ contract NebularTokenVester is INebularTokenVester, Ownable {
         beneficiary = _beneficiary;
     }
 
-    /// @inheritdoc INebularTokenVester
+    /// @inheritdoc IEvxTokenVester
     function release() external override onlyOwner {
         uint256 vested = calculateVestedAmount();
         require(vested > released, "No tokens to release");
@@ -85,7 +85,7 @@ contract NebularTokenVester is INebularTokenVester, Ownable {
         emit TokensReleased(amount);
     }
 
-    /// @inheritdoc INebularTokenVester
+    /// @inheritdoc IEvxTokenVester
     function calculateVestedAmount() public view override returns (uint256) {
         if (block.timestamp < start + cliffDuration) {
             return 0;

@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import { INebularToken } from "@nebular-dao/interfaces/INebularToken.sol";
+import { IEvxToken } from "@evx-dao/interfaces/IEvxToken.sol";
 import { IGovernor } from "@openzeppelin/contracts/governance/IGovernor.sol";
 
 /*
- * @title Interface for Nebular Governance
- * @notice Defines the external API of the INebularGovernance contract
+ * @title Interface for Evx Governance
+ * @notice Defines the external API of the IEvxGovernance contract
  */
-interface INebularGovernance is IGovernor {
+interface IEvxGovernance is IGovernor {
     /**
      * @notice Returns the governance token used for voting.
-     * @return The INebularToken contract address.
+     * @return The IEvxToken contract address.
      */
-    function nebularToken() external view returns (INebularToken);
+    function evxToken() external view returns (IEvxToken);
 
     /**
      * @notice Checks if a proposal needs queuing before execution.

@@ -10,38 +10,38 @@ import { IGovernor } from "@openzeppelin/contracts/governance/IGovernor.sol";
 import { IVotes } from "@openzeppelin/contracts/governance/utils/IVotes.sol";
 import { Governor } from "@openzeppelin/contracts/governance/Governor.sol";
 
-import { INebularGovernance } from "@nebular-dao/interfaces/INebularGovernance.sol";
-import { INebularToken } from "@nebular-dao/interfaces/INebularToken.sol";
+import { IEvxGovernance } from "@evx-dao/interfaces/IEvxGovernance.sol";
+import { IEvxToken } from "@evx-dao/interfaces/IEvxToken.sol";
 
 /**
- * @title Nebular Governance DAO
- * @notice Core contract for Nebular protocol governance, enabling proposal creation, voting, queuing and execution.
+ * @title Evx Governance DAO
+ * @notice Core contract for Evx protocol governance, enabling proposal creation, voting, queuing and execution.
  * @dev Inherits OpenZeppelin's Governor with TimelockControl, Votes, CountingOverridable and QuorumFraction extensions.
  */
-contract NebularGovernance is
-    INebularGovernance,
+contract EvxGovernance is
+    IEvxGovernance,
     Governor,
     GovernorTimelockControl,
     GovernorVotes,
     GovernorCountingOverridable,
     GovernorVotesQuorumFraction
 {
-    /// @inheritdoc INebularGovernance
-    INebularToken public immutable nebularToken;
+    /// @inheritdoc IEvxGovernance
+    IEvxToken public immutable evxToken;
 
     /**
-     * @notice Initializes the Nebular Governance DAO.
-     * @param _token The governance token contract implementing INebularToken.
+     * @notice Initializes the Evx Governance DAO.
+     * @param _token The governance token contract implementing IEvxToken.
      * @param _timelock The TimelockController enforcing execution delay before proposal execution.
      */
-    constructor(INebularToken _token, TimelockController _timelock)
-        Governor("NBL Governance DAO")
+    constructor(IEvxToken _token, TimelockController _timelock)
+        Governor("EVX Governance DAO")
         GovernorVotes(IVotes(address(_token)))
         GovernorTimelockControl(_timelock)
         GovernorCountingOverridable()
         GovernorVotesQuorumFraction(51)
     {
-        nebularToken = _token;
+        evxToken = _token;
     }
 
     /**
@@ -71,81 +71,81 @@ contract NebularGovernance is
         return super._executor();
     }
 
-    /// @inheritdoc INebularGovernance
+    /// @inheritdoc IEvxGovernance
     function state(uint256 proposalId)
         public
         view
-        override(INebularGovernance, Governor, GovernorTimelockControl)
+        override(IEvxGovernance, Governor, GovernorTimelockControl)
         returns (ProposalState)
     {
         return super.state(proposalId);
     }
 
-    /// @inheritdoc INebularGovernance
+    /// @inheritdoc IEvxGovernance
     function proposalNeedsQueuing(uint256 proposalId)
         public
         view
-        override(INebularGovernance, Governor, GovernorTimelockControl)
+        override(IEvxGovernance, Governor, GovernorTimelockControl)
         returns (bool)
     {
         return super.proposalNeedsQueuing(proposalId);
     }
 
-    /// @inheritdoc INebularGovernance
-    function votingDelay() public pure override(INebularGovernance, Governor) returns (uint256) {
+    /// @inheritdoc IEvxGovernance
+    function votingDelay() public pure override(IEvxGovernance, Governor) returns (uint256) {
         return 5760;
     }
 
-    /// @inheritdoc INebularGovernance
-    function votingPeriod() public pure override(INebularGovernance, Governor) returns (uint256) {
+    /// @inheritdoc IEvxGovernance
+    function votingPeriod() public pure override(IEvxGovernance, Governor) returns (uint256) {
         return 40320;
     }
 
-    /// @inheritdoc INebularGovernance
+    /// @inheritdoc IEvxGovernance
     function quorum(uint256 blockNumber)
         public
         view
-        override(INebularGovernance, Governor, GovernorVotesQuorumFraction)
+        override(IEvxGovernance, Governor, GovernorVotesQuorumFraction)
         returns (uint256)
     {
         return super.quorum(blockNumber);
     }
 
-    /// @inheritdoc INebularGovernance
+    /// @inheritdoc IEvxGovernance
     function getVotes(address account, uint256 blockNumber)
         public
         view
-        override(INebularGovernance, Governor)
+        override(IEvxGovernance, Governor)
         returns (uint256)
     {
-        return nebularToken.getPastVotes(account, blockNumber);
+        return evxToken.getPastVotes(account, blockNumber);
     }
 
-    /// @inheritdoc INebularGovernance
-    function CLOCK_MODE() public pure override(INebularGovernance, Governor, GovernorVotes) returns (string memory) {
+    /// @inheritdoc IEvxGovernance
+    function CLOCK_MODE() public pure override(IEvxGovernance, Governor, GovernorVotes) returns (string memory) {
         return "mode=blocknumber&from=default";
     }
 
-    /// @inheritdoc INebularGovernance
-    function clock() public view override(INebularGovernance, Governor, GovernorVotes) returns (uint48) {
+    /// @inheritdoc IEvxGovernance
+    function clock() public view override(IEvxGovernance, Governor, GovernorVotes) returns (uint48) {
         return uint48(block.number);
     }
 
-    /// @inheritdoc INebularGovernance
+    /// @inheritdoc IEvxGovernance
     function COUNTING_MODE() 
         public 
         pure 
-        override(INebularGovernance, IGovernor, GovernorCountingOverridable) 
+        override(IEvxGovernance, IGovernor, GovernorCountingOverridable) 
         returns (string memory) 
     {
         return "support=bravo&quorum=for,abstain";
     }
 
-    /// @inheritdoc INebularGovernance
+    /// @inheritdoc IEvxGovernance
     function hasVoted(uint256 proposalId, address account)
         public
         view
-        override(INebularGovernance, IGovernor, GovernorCountingOverridable)
+        override(IEvxGovernance, IGovernor, GovernorCountingOverridable)
         returns (bool)
     {
         return super.hasVoted(proposalId, account);
