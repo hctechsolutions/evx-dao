@@ -1,0 +1,27 @@
+{
+  "version": "1.0.0",
+  "encoding": "keccak256(abi.encodePacked(uint256 index, address account, uint256 amount))",
+  "sortPairs": "openzeppelin-sorted-hash",
+  "notes": "Shared golden fixture (D29). Generator ≡ Foundry ≡ Back seed ≡ SDK asserts. Season-1 Sepolia EOAs.",
+  "leaves": [
+    {
+      "index": 0,
+      "account": "0x07c072e0edab5b6180534dbe6c3bd86bc9901126",
+      "amount": "100000000000000000000",
+      "leaf": "0xdc9db32201433ba984c3d0b599c61711c3f920b722c65fdc0684654d8bc286cf"
+    },
+    {
+      "index": 1,
+      "account": "0xdf961cee234af74b6ac4d644736b325ee7391416",
+      "amount": "50000000000000000000",
+      "leaf": "0x80eb3c7c4df5d5990fdd36fd5ec0a719c92e9651ff266fb91750e5b877025ae1"
+    }
+  ],
+  "merkleRoot": "0x799e3b776fdc5153c4862cf341203fe068e4c494e83e553d610caa1288c2c9f8",
+  "proofs": {
+    "0": ["0x80eb3c7c4df5d5990fdd36fd5ec0a719c92e9651ff266fb91750e5b877025ae1"],
+    "1": ["0xdc9db32201433ba984c3d0b599c61711c3f920b722c65fdc0684654d8bc286cf"]
+  },
+  "totalAllocated": "150000000000000000000",
+  "allocationCount": 2
+}
