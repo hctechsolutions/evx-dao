@@ -47,8 +47,11 @@ $ anvil
 
 ### Deploy
 
+Contract publication is operated from [evx-deploy](https://github.com/evx-finance/evx-deploy). This repository keeps the Foundry implementations (`scripts/Deploy.s.sol`, `scripts/DeployAirdropDistributor.s.sol`); they are invoked only through that registry.
+
 ```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+python3 -m evx_deploy plan --network sepolia
+python3 -m evx_deploy deploy --network sepolia
 ```
 
 ### Cast
