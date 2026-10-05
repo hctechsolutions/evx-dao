@@ -7,7 +7,7 @@ import { EvxAirdropDistributor } from "@evx-dao/contracts/EvxAirdropDistributor.
 
 /**
  * @title EvxAirdropDistributorTest
- * @dev Story 5.3 claim paths + Story 5.4 deadline/sweep/threat model.
+ * @dev Claim paths, deadline/sweep, and threat model coverage.
  */
 contract EvxAirdropDistributorTest is Test {
     EvxToken public token;

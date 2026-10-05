@@ -9,7 +9,7 @@ import "forge-std/console.sol";
 
 /**
  * @title DeployAirdropDistributor
- * @notice Deploy + fund Merkle distributor (Story 5.3/5.4 Profile B).
+ * @notice Deploy and fund Merkle distributor (Profile B).
  * @dev Env:
  *   DEPLOYER_PRIVATE_KEY
  *   EVX_TOKEN_ADDR
@@ -19,7 +19,7 @@ import "forge-std/console.sol";
  *   AIRDROP_TOTAL_ALLOCATED    — wei (uint)
  *   AIRDROP_TREASURY           — HARD GATE: Timelock or DAO-controlled address
  *                                (sweep authority + canonical destination; D24)
- *   AIRDROP_FUND_AMOUNT        — wei (optional; default = TOTAL; must be >= TOTAL)
+ *   AIRDROP_FUND_AMOUNT        — wei (optional; default 0 = deploy only, fund after vesting/DAO)
  */
 contract DeployAirdropDistributor is Script {
     using SafeERC20 for IERC20;
@@ -33,8 +33,10 @@ contract DeployAirdropDistributor is Script {
     address private treasury = vm.envAddress("AIRDROP_TREASURY");
 
     function run() external {
-        uint256 fundAmount = vm.envOr("AIRDROP_FUND_AMOUNT", totalAllocated);
-        require(fundAmount >= totalAllocated, "fundAmount < totalAllocated");
+        uint256 fundAmount = vm.envOr("AIRDROP_FUND_AMOUNT", uint256(0));
+        if (fundAmount > 0) {
+            require(fundAmount >= totalAllocated, "fundAmount < totalAllocated");
+        }
         require(treasury != address(0), "treasury required (Timelock/DAO)");
         require(tokenAddr != address(0), "token required");
         require(merkleRoot != bytes32(0), "merkleRoot required");
@@ -46,9 +48,13 @@ contract DeployAirdropDistributor is Script {
         require(totalAllocated > 0, "totalAllocated required");
 
         address deployer = vm.addr(deployerPrivateKey);
-        uint256 bal = IERC20(tokenAddr).balanceOf(deployer);
-        console.log("Deployer EVX balance:", bal);
-        require(bal >= fundAmount, "deployer EVX < fundAmount; fund before deploy");
+        if (fundAmount > 0) {
+            uint256 bal = IERC20(tokenAddr).balanceOf(deployer);
+            console.log("Deployer EVX balance:", bal);
+            require(bal >= fundAmount, "deployer EVX < fundAmount; fund before deploy");
+        } else {
+            console.log("AIRDROP_FUND_AMOUNT=0; distributor deploy only (fund later)");
+        }
 
         vm.startBroadcast(deployerPrivateKey);
 
@@ -62,12 +68,14 @@ contract DeployAirdropDistributor is Script {
         );
         console.log("EvxAirdropDistributor deployed at:", address(distributor));
 
-        IERC20(tokenAddr).safeTransfer(address(distributor), fundAmount);
-        require(
-            IERC20(tokenAddr).balanceOf(address(distributor)) >= totalAllocated,
-            "distributor received < totalAllocated"
-        );
-        console.log("Funded distributor with:", fundAmount);
+        if (fundAmount > 0) {
+            IERC20(tokenAddr).safeTransfer(address(distributor), fundAmount);
+            require(
+                IERC20(tokenAddr).balanceOf(address(distributor)) >= totalAllocated,
+                "distributor received < totalAllocated"
+            );
+            console.log("Funded distributor with:", fundAmount);
+        }
 
         console.log("======== AIRDROP DEPLOYMENT ========");
         console.log(string.concat("EVX_TOKEN_ADDR=", vm.toString(tokenAddr)));

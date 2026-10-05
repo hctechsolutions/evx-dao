@@ -1,27 +1,44 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "encoding": "keccak256(abi.encodePacked(uint256 index, address account, uint256 amount))",
   "sortPairs": "openzeppelin-sorted-hash",
-  "notes": "Shared golden fixture (D29). Generator ≡ Foundry ≡ Back seed ≡ SDK asserts. Season-1 Sepolia EOAs.",
+  "notes": "Fixture only. The two accounts (0xaaaa… and 0xbbbb…) are not user wallets and are not the browser wallet. They exist so the SDK, Foundry and the backend assert the same root, proofs and hashes. A real season uses a different list. datasetHash is SHA-256 over UTF-8 lines index:wallet:amount, numeric index order, joined by |. Config is the Sepolia fixture vector, not a live distributor.",
+  "distributionId": "season-1-sepolia-v1",
+  "chainId": 11155111,
+  "token": "0x5587fa17bef4633e6d5257d6a69c9fd2c9029342",
+  "treasury": "0x976ea74026e726554db657fa54763abd0c3a0aa9",
+  "claimDeadline": "1893456000",
   "leaves": [
     {
       "index": 0,
-      "account": "0x07c072e0edab5b6180534dbe6c3bd86bc9901126",
+      "account": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "amount": "100000000000000000000",
-      "leaf": "0xdc9db32201433ba984c3d0b599c61711c3f920b722c65fdc0684654d8bc286cf"
+      "leaf": "0xfad771460f37ad10120dc36612e49f6e0df81d77d7aaa5a44130e831394a2198"
     },
     {
       "index": 1,
-      "account": "0xdf961cee234af74b6ac4d644736b325ee7391416",
+      "account": "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
       "amount": "50000000000000000000",
-      "leaf": "0x80eb3c7c4df5d5990fdd36fd5ec0a719c92e9651ff266fb91750e5b877025ae1"
+      "leaf": "0xc41f979c90ff170513973651927786598c94e101138b405d87b41a683cacd016"
     }
   ],
-  "merkleRoot": "0x799e3b776fdc5153c4862cf341203fe068e4c494e83e553d610caa1288c2c9f8",
+  "merkleRoot": "0x4fdb915cd1c83d7abb1ba61f3483ea711230dc55ae118088c3db1a933aae8641",
   "proofs": {
-    "0": ["0x80eb3c7c4df5d5990fdd36fd5ec0a719c92e9651ff266fb91750e5b877025ae1"],
-    "1": ["0xdc9db32201433ba984c3d0b599c61711c3f920b722c65fdc0684654d8bc286cf"]
+    "0": [
+      "0xc41f979c90ff170513973651927786598c94e101138b405d87b41a683cacd016"
+    ],
+    "1": [
+      "0xfad771460f37ad10120dc36612e49f6e0df81d77d7aaa5a44130e831394a2198"
+    ]
   },
   "totalAllocated": "150000000000000000000",
-  "allocationCount": 2
+  "allocationCount": 2,
+  "datasetPreimage": "0:0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:100000000000000000000|1:0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb:50000000000000000000",
+  "datasetHash": "0xca10ef398a7a847fff16ca617efe28c279f5bc62872c05f7e77ea7c033e51259",
+  "distributionPreimage": "season-1-sepolia-v1|11155111|0x4fdb915cd1c83d7abb1ba61f3483ea711230dc55ae118088c3db1a933aae8641|0xca10ef398a7a847fff16ca617efe28c279f5bc62872c05f7e77ea7c033e51259",
+  "distributionIdHash": "0x605de4ef40b02277e9aa99bdb35767f0013690d2f59c2e052c5d195d73a7a2c1",
+  "configPreimage": "0x5587fa17bef4633e6d5257d6a69c9fd2c9029342|0x4fdb915cd1c83d7abb1ba61f3483ea711230dc55ae118088c3db1a933aae8641|1893456000|0x605de4ef40b02277e9aa99bdb35767f0013690d2f59c2e052c5d195d73a7a2c1|150000000000000000000|0x976ea74026e726554db657fa54763abd0c3a0aa9|11155111",
+  "configHash": "0x4c5ac6dac01f4b6980e450a8685cfee820154cc8dfd0d331ce313a942cbad5db",
+  "indexOrderPreimage": "2:0x0000000000000000000000000000000000000001:1|10:0x0000000000000000000000000000000000000002:2",
+  "indexOrderHash": "0xf63efda70acf4c1d6d2f19bcf5ab9740ecf84e8651d130d12104bfb8a7b45d30"
 }

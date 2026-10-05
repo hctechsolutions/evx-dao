@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 /**
  * @title IEvxAirdropDistributor
- * @notice Uniswap MerkleDistributor–style retail claim + Story 5.4 integrity surface.
+ * @notice Uniswap MerkleDistributor–style retail claim and integrity surface.
  * @dev Leaf = keccak256(abi.encodePacked(index, account, amount)).
  *      Profile B: treasury-gated sweepUnclaimed / sweepExcess after claimDeadline.
  *      No setRoot; no pause (D19/D25).

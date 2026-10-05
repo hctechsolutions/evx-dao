@@ -9,7 +9,7 @@ import { IEvxAirdropDistributor } from "@evx-dao/interfaces/IEvxAirdropDistribut
 
 /**
  * @title EvxAirdropDistributor
- * @notice Merkle claim distributor for EVX airdrop seasons (Uniswap-style + Story 5.4).
+ * @notice Merkle claim distributor for EVX airdrop seasons (Uniswap-style).
  * @dev Compatible leaf packing: keccak256(abi.encodePacked(index, account, amount)).
  *      Immutables: token, merkleRoot, claimDeadline, distributionIdHash, totalAllocated, treasury.
  *      No setRoot / no Ownable root rotate (D19). No Pausable (D25: explicit no-pause).
